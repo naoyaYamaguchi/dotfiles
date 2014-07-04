@@ -1,0 +1,12 @@
+echo 'read aliases'
+alias vim='/Applications/MacVim.app/Contents/MacOS/Vim '
+alias vi=vim
+alias vf='vi -c VimFiler'
+alias gs='git status'
+alias gc='git commit'
+alias gb='git branch'
+alias gb-a='git branch -a'
+alias gf='git fech'
+alias slist='git stash list'
+alias setup='redis-server &;memcached &;mysql.server start'
+alias clip='open /Applications/ClipMenu.app'
