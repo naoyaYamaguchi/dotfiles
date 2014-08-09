@@ -1,18 +1,4 @@
-" .vimrc
-"
-" " Search
-" set ignorecase
-" set smartcase
-" set wrapscan
-" set hlsearch "
-" " View
-" colorscheme desert
-" syntax on
-" set number
-" set title
-" set ruler
-" set list
-"
+"" vimrc
 syntax on
 set nowrap
 set nobackup
@@ -23,37 +9,57 @@ hi SpecialKey guibg=NONE guifg=DarkGreen
 
 " matchit.vim
 source $VIMRUNTIME/macros/matchit.vim
-let b:match_words = "if:endif,(:),[:],{:}"
+let b:match_words = 'if:endif,(:),[:],{:}'
 
-"" NeoBundle
-set nocompatible
+"NeoBundle Scripts-----------------------------
 if has('vim_starting')
-  set runtimepath+=~/.bundle/neobundle.vim
+  set nocompatible               " Be iMproved
+
+  " Required:
+  set runtimepath+=/Users/naoya.yamaguchi/.vim/bundle/neobundle.vim/
 endif
 
-call neobundle#rc(expand('~/.bundle'))
+" Required:
+call neobundle#begin(expand('/Users/naoya.yamaguchi/.vim/bundle'))
 
+" Let NeoBundle manage NeoBundle
+" Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
 
+" My Bundles here:
+" NeoBundle 'Shougo/neosnippet.vim'
+" NeoBundle 'Shougo/neosnippet-snippets'
+" NeoBundle 'tpope/vim-fugitive'
+" NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'flazz/vim-colorschemes'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/vimproc'
 NeoBundle 'Shougo/vimfiler'
-NeoBundle 'Shougo/vimshell'
-
 NeoBundle 'python_match.vim'
-NeoBundleLazy 'hdima/python-syntax'
-autocmd FileType python,htmldjango NeoBundleSource python-syntax
-" NeoBundleLazy 'kana/vim-textobj-user'
-" autocmd FileType htmldjango NeoBundleSource vim-textobj-user
+" NeoBundleLazy 'hdima/python-syntax'
+" autocmd FileType python,htmldjango NeoBundleSource python-syntax
+NeoBundleLazy 'kana/vim-textobj-user'
+autocmd FileType htmldjango NeoBundleSource vim-textobj-user
+NeoBundleLazy 'klen/python-mode'
+autocmd FileType python,htmldjango NeoBundleSource python-mode
 NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'mjbrownie/django-template-textobjects'
-" NeoBundleLazy 'mjbrownie/django-template-textobjects'
-" autocmd FileType htmldjango NeoBundleSource django-template-textobjects
-filetype plugin on
+NeoBundleLazy 'mjbrownie/django-template-textobjects'
+
+" You can specify revision/branch/tag.
+NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
+
+call neobundle#end()
+
 filetype plugin indent on
+filetype plugin indent on
+
 NeoBundleCheck
 
-"" unite
+
+"=================================================================
+"                           unite
+"=================================================================
 nnoremap    [unite]   <Nop>
 nmap    <Leader>f [unite]
 nnoremap [unite]u  :<C-u>Unite -no-split<Space>
@@ -65,7 +71,23 @@ nnoremap <silent> [unite]m :<C-u>Unite<Space>file_mru<CR>
 "bookmarkだけホームディレクトリに保存
 let g:unite_source_bookmark_directory = $HOME . '/.unite/bookmark'
 
-"" VimFiler
+"  unite-grep
+let g:unite_source_grep_command = 'ag'
+let g:unite_source_grep_default_opts = '--nocolor --nogroup'
+let g:unite_source_grep_recursive_opt = ''
+let g:unite_source_grep_max_candidates = 200
+vnoremap /g y:Unite grep::-iHRn:<C-R>=escape(@", '\\.*$^[]')<CR><CR>
+
+" unite-grepのキーマップ
+" 選択した文字列をunite-grep
+" https://github.com/shingokatsushima/dotfiles/blob/master/.vimrc
+vnoremap /g y:Unite grep::-iHRn:<C-R>=escape(@", '\\.*$^[]')<CR><CR>
+" }}}
+
+
+"=================================================================
+"                           VimFiler
+"=================================================================
 let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default = 0
 " Edit file by tabedit.
@@ -80,29 +102,38 @@ nmap <F2>  :VimFiler -split -horizontal -project -toggle -quit<CR>
 autocmd FileType vimfiler nnoremap <buffer><silent>/  :<C-u>Unite file -default-action=vimfiler<CR>
 autocmd FileType vimfiler nnoremap <silent><buffer> e :call <SID>vimfiler_tree_edit('open')<CR>
 
-"  unite-grep
-let g:unite_source_grep_command = 'ag'
-let g:unite_source_grep_default_opts = '--nocolor --nogroup'
-let g:unite_source_grep_recursive_opt = ''
-let g:unite_source_grep_max_candidates = 200
-vnoremap /g y:Unite grep::-iHRn:<C-R>=escape(@", '\\.*$^[]')<CR><CR>
- 
-" unite-grepのキーマップ
-" 選択した文字列をunite-grep
-" https://github.com/shingokatsushima/dotfiles/blob/master/.vimrc
-vnoremap /g y:Unite grep::-iHRn:<C-R>=escape(@", '\\.*$^[]')<CR><CR>
-" }}}
-" python
+
+"=================================================================
+"                           python
+"=================================================================
 set expandtab tabstop=4 shiftwidth=4 softtabstop=4
 autocmd FileType python let g:pydiction_location = '~/.vim/pydiction/complete-dict'
 autocmd FileType python setl autoindent
 autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 autocmd FileType python setl expandtab tabstop=4 shiftwidth=4 softtabstop=4
-let g:syntastic_check_on_open=1
-let g:syntastic_python_checker="flake8"
-"autocmd BufWritePost *.py call Flake8()
+" let g:syntastic_check_on_open=1
+" let g:syntastic_python_checker="flake8"
+" "autocmd BufWritePost *.py call Flake8()
 
-" ctags
+"" python-mode
+let g:pymode_lint= 1
+let g:pymode_lint_on_write = 0
+let g:pymode_folding= 0
+let g:pymode_lint_on_fly= 1
+"Values may be chosen from: `pylint`, `pep8`, `mccabe`, `pep257`, `pyflakes`.
+let g:pymode_lint_checkers = ['pyflakes', 'pep8', 'mccabe', 'pylint']
+
+let g:pymode_syntax = 1
+let g:pymode_syntax_slow_sync = 1
+let g:pymode_syntax_all = 1
+let g:pymode_syntax_highlight_self = g:pymode_syntax_all
+let g:pymode_syntax_indent_errors = g:pymode_syntax_all
+let g:pymode_syntax_space_errors = g:pymode_syntax_all
+
+
+"=================================================================
+"                       other
+"=================================================================
 set tags=TAGS;~
 nmap <C-]> g<C-]>
 filetype on
@@ -116,3 +147,6 @@ nnoremap <C-h>  :<C-u>help<Space>
 
 " " カーソル下のキーワードをヘルプでひく
 nnoremap <C-h><C-h> :<C-u>help<Space><C-r><C-w><Enter>
+
+"" .un~ ファイル作成しない
+set noundofile
