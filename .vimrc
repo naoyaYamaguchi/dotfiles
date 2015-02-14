@@ -36,15 +36,21 @@ NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/vimproc'
 NeoBundle 'Shougo/vimfiler'
 NeoBundle 'python_match.vim'
+NeoBundle 'glidenote/memolist.vim'
+" NeoBundleLazy 'klen/python-mode'
+" autocmd FileType python,htmldjango NeoBundleSource python-mode
+NeoBundleLazy 'kevinw/pyflakes-vim.git'
+autocmd FileType python,htmldjango NeoBundleSource pyflakes-vim
 " NeoBundleLazy 'hdima/python-syntax'
 " autocmd FileType python,htmldjango NeoBundleSource python-syntax
+"
 NeoBundleLazy 'kana/vim-textobj-user'
 autocmd FileType htmldjango NeoBundleSource vim-textobj-user
-NeoBundleLazy 'klen/python-mode'
-autocmd FileType python,htmldjango NeoBundleSource python-mode
 NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'mjbrownie/django-template-textobjects'
 NeoBundleLazy 'mjbrownie/django-template-textobjects'
+
+NeoBundle 'alfredodeza/khuno.vim'
 
 " You can specify revision/branch/tag.
 NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
@@ -115,21 +121,33 @@ autocmd FileType python setl expandtab tabstop=4 shiftwidth=4 softtabstop=4
 " let g:syntastic_python_checker="flake8"
 " "autocmd BufWritePost *.py call Flake8()
 
-"" python-mode
-let g:pymode_lint= 1
-let g:pymode_lint_on_write = 0
-let g:pymode_folding= 0
-let g:pymode_lint_on_fly= 1
-"Values may be chosen from: `pylint`, `pep8`, `mccabe`, `pep257`, `pyflakes`.
-let g:pymode_lint_checkers = ['pyflakes', 'pep8', 'mccabe', 'pylint']
+"" "" python-mode
+"" let g:pymode_lint= 1
+"" let g:pymode_lint_on_write = 0
+"" let g:pymode_folding= 0
+"" let g:pymode_lint_on_fly= 1
+"" "Values may be chosen from: `pylint`, `pep8`, `mccabe`, `pep257`, `pyflakes`.
+"" let g:pymode_lint_checkers = ['pyflakes', 'pep8', 'mccabe', 'pylint']
+"" 
+"" let g:pymode_syntax = 1
+"" let g:pymode_syntax_slow_sync = 1
+"" let g:pymode_syntax_all = 1
+"" let g:pymode_syntax_highlight_self = g:pymode_syntax_all
+"" let g:pymode_syntax_indent_errors = g:pymode_syntax_all
+"" let g:pymode_syntax_space_errors = g:pymode_syntax_all
 
-let g:pymode_syntax = 1
-let g:pymode_syntax_slow_sync = 1
-let g:pymode_syntax_all = 1
-let g:pymode_syntax_highlight_self = g:pymode_syntax_all
-let g:pymode_syntax_indent_errors = g:pymode_syntax_all
-let g:pymode_syntax_space_errors = g:pymode_syntax_all
 
+"=================================================================
+"                       memolist.vim
+"=================================================================
+map <Leader>mn  :MemoNew<CR>
+map <Leader>ml  :MemoList<CR>
+map <Leader>mg  :MemoGrep<CR>
+
+let g:memolist_memo_date = "%Y-%m-%d %H:%M"
+let g:memolist_memo_date = "epoch"
+let g:memolist_memo_date = "%D %T"
+let g:memolist_vimfiler = 1
 
 "=================================================================
 "                       other
